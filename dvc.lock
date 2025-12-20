@@ -36,3 +36,38 @@ stages:
       md5: 0a91e65e0f4f07a04007ac3c22e91019.dir
       size: 29554426
       nfiles: 329
+  prepare_dataset:
+    cmd: python src/prepare_dataset.py
+    deps:
+    - path: data/images/raw
+      hash: md5
+      md5: 9ad22938560383172555c3440839c7ea.dir
+      size: 129559961
+      nfiles: 1180
+    - path: src/prepare_dataset.py
+      hash: md5
+      md5: 599838d78a9161fbcdf17b90f7be9f4b
+      size: 1525
+    outs:
+    - path: data/images/processed
+      hash: md5
+      md5: ad242093ad9bf2aa1e3ea18ab7617dae.dir
+      size: 129559925
+      nfiles: 1179
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/images/processed
+      hash: md5
+      md5: ad242093ad9bf2aa1e3ea18ab7617dae.dir
+      size: 129559925
+      nfiles: 1179
+    - path: src/train.py
+      hash: md5
+      md5: 648bae0a271eb8829579799aa8905199
+      size: 3455
+    outs:
+    - path: models/best.pt
+      hash: md5
+      md5: 1acbd7840e419dc6a6a525292e6278f2
+      size: 16314661
