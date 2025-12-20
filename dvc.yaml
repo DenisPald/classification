@@ -1,0 +1,17 @@
+stages:
+  download_images_Ardea_herodias:
+    cmd: python src/download_images.py data/csv/Ardea_herodias/birds.csv 
+      data/images/raw/Ardea_herodias
+    deps:
+    - data/csv/Ardea_herodias/birds.csv
+    - src/download_images.py
+    outs:
+    - data/images/raw/Ardea_herodias
+  download_images_Ardea_alba_egretta:
+    cmd: python src/download_images.py data/csv/Ardea_alba_egretta/birds.csv 
+      data/images/raw/Ardea_alba_egretta
+    deps:
+    - data/csv/Ardea_alba_egretta/birds.csv
+    - src/download_images.py
+    outs:
+    - data/images/raw/Ardea_alba_egretta

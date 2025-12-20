@@ -1,0 +1,38 @@
+schema: '2.0'
+stages:
+  download_images_Ardea_herodias:
+    cmd: python src/download_images.py data/csv/Ardea_herodias/birds.csv 
+      data/images/raw/Ardea_herodias
+    deps:
+    - path: data/csv/Ardea_herodias/birds.csv
+      hash: md5
+      md5: c6de8d7c33c73cf54f7d1ed2953bdbc1
+      size: 116759
+    - path: src/download_images.py
+      hash: md5
+      md5: a5266f1ee0fc3894f7fbd4ecdbb9ce66
+      size: 827
+    outs:
+    - path: data/images/raw/Ardea_herodias
+      hash: md5
+      md5: 4d43a46d22852ee52d276ab4e9db0dce.dir
+      size: 100005499
+      nfiles: 850
+  download_images_Ardea_alba_egretta:
+    cmd: python src/download_images.py data/csv/Ardea_alba_egretta/birds.csv 
+      data/images/raw/Ardea_alba_egretta
+    deps:
+    - path: data/csv/Ardea_alba_egretta/birds.csv
+      hash: md5
+      md5: 8abb4a5352df9cd2288e29b3387fc36a
+      size: 45578
+    - path: src/download_images.py
+      hash: md5
+      md5: a5266f1ee0fc3894f7fbd4ecdbb9ce66
+      size: 827
+    outs:
+    - path: data/images/raw/Ardea_alba_egretta
+      hash: md5
+      md5: 0a91e65e0f4f07a04007ac3c22e91019.dir
+      size: 29554426
+      nfiles: 329
