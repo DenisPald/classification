@@ -9,6 +9,7 @@ from pathlib import Path
 from tqdm import tqdm
 import os
 import yaml
+import json
 
 train_transform = transforms.Compose([
     transforms.Resize((224, 224)),
@@ -134,7 +135,12 @@ if __name__ == '__main__':
 
         if val_acc > best_acc:
             best_acc = val_acc
-            torch.save(model.state_dict(), f"models/best_{cfg['model']}.pt")
+            torch.save(model.state_dict(), "models/best_model.pt")
+
+            metrics = {"val_accuracy": best_acc}
+            with open(f"metrics.json", "w") as f:
+                json.dump(metrics, f)
+
             print("Saved new best model")
 
     print(f"\nTraining finished. Best Val Accuracy: {best_acc:.4f}")

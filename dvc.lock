@@ -59,18 +59,26 @@ stages:
     deps:
     - path: data/images/processed
       hash: md5
-      md5: ad242093ad9bf2aa1e3ea18ab7617dae.dir
-      size: 129559925
-      nfiles: 1179
+      md5: ee707e8e7b095b598fad29e0a1b4d0b1.dir
+      size: 344060717
+      nfiles: 3017
     - path: src/train.py
       hash: md5
-      md5: 648bae0a271eb8829579799aa8905199
-      size: 3455
+      md5: 50f5f5b61fb3a91210e6ae04f79b732e
+      size: 4610
+    params:
+      params.yaml:
+        train.model: efficientnet_b0
     outs:
-    - path: models/best.pt
+    - path: metrics.json
       hash: md5
-      md5: 1acbd7840e419dc6a6a525292e6278f2
-      size: 16314661
+      md5: 461ff5953d6952521a349f736f6b8c47
+      size: 36
+    - path: models
+      hash: md5
+      md5: ef986f2083af1a35b4a2258d52887ba0.dir
+      size: 16360505
+      nfiles: 1
   download_images_Ardea_cocoi:
     cmd: python src/download_images.py data/csv/Ardea_cocoi/birds.csv 
       data/images/raw/Ardea_cocoi

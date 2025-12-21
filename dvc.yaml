@@ -71,3 +71,5 @@ stages:
     - train.model
     outs:
     - models
+    metrics:
+    - metrics.json
