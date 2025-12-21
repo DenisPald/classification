@@ -41,19 +41,19 @@ stages:
     deps:
     - path: data/images/raw
       hash: md5
-      md5: 9ad22938560383172555c3440839c7ea.dir
-      size: 129559961
-      nfiles: 1180
+      md5: 92b1b2a7dcb09e658b83ad9650c05432.dir
+      size: 344060753
+      nfiles: 3018
     - path: src/prepare_dataset.py
       hash: md5
-      md5: 599838d78a9161fbcdf17b90f7be9f4b
-      size: 1525
+      md5: 0a84bf800b17350e4566103d8471cf81
+      size: 1389
     outs:
     - path: data/images/processed
       hash: md5
-      md5: ad242093ad9bf2aa1e3ea18ab7617dae.dir
-      size: 129559925
-      nfiles: 1179
+      md5: ee707e8e7b095b598fad29e0a1b4d0b1.dir
+      size: 344060717
+      nfiles: 3017
   train:
     cmd: python src/train.py
     deps:
@@ -71,3 +71,93 @@ stages:
       hash: md5
       md5: 1acbd7840e419dc6a6a525292e6278f2
       size: 16314661
+  download_images_Ardea_cocoi:
+    cmd: python src/download_images.py data/csv/Ardea_cocoi/birds.csv 
+      data/images/raw/Ardea_cocoi
+    deps:
+    - path: data/csv/Ardea_cocoi/birds.csv
+      hash: md5
+      md5: 577d2cafef05620efbdb9114b453b5be
+      size: 53401
+    - path: src/download_images.py
+      hash: md5
+      md5: a5266f1ee0fc3894f7fbd4ecdbb9ce66
+      size: 827
+    outs:
+    - path: data/images/raw/Ardea_cocoi
+      hash: md5
+      md5: 8e4f9e9503af76042b0a3f21d1e70d3b.dir
+      size: 43086892
+      nfiles: 390
+  download_images_Ardea_ibis:
+    cmd: python src/download_images.py data/csv/Ardea_ibis/birds.csv 
+      data/images/raw/Ardea_ibis
+    deps:
+    - path: data/csv/Ardea_ibis/birds.csv
+      hash: md5
+      md5: ed3fca99d2791514ba0ad58a49a540a3
+      size: 43451
+    - path: src/download_images.py
+      hash: md5
+      md5: a5266f1ee0fc3894f7fbd4ecdbb9ce66
+      size: 827
+    outs:
+    - path: data/images/raw/Ardea_ibis
+      hash: md5
+      md5: c3a6e75eb176d32241209d0e4a05625b.dir
+      size: 47459832
+      nfiles: 347
+  download_images_Ardea_melanocephala:
+    cmd: python src/download_images.py data/csv/Ardea_melanocephala/birds.csv 
+      data/images/raw/Ardea_melanocephala
+    deps:
+    - path: data/csv/Ardea_melanocephala/birds.csv
+      hash: md5
+      md5: eda1d46e132e87e019b5901d738ce884
+      size: 194455
+    - path: src/download_images.py
+      hash: md5
+      md5: a5266f1ee0fc3894f7fbd4ecdbb9ce66
+      size: 827
+    outs:
+    - path: data/images/raw/Ardea_melanocephala
+      hash: md5
+      md5: 5ab7e02ede171258dfa35a70e1ac3cc4.dir
+      size: 38401583
+      nfiles: 371
+  download_images_Ardea_purpurea:
+    cmd: python src/download_images.py data/csv/Ardea_purpurea/birds.csv 
+      data/images/raw/Ardea_purpurea
+    deps:
+    - path: data/csv/Ardea_purpurea/birds.csv
+      hash: md5
+      md5: f616d3bad31c82b3b9f57571f3b2e300
+      size: 39079
+    - path: src/download_images.py
+      hash: md5
+      md5: a5266f1ee0fc3894f7fbd4ecdbb9ce66
+      size: 827
+    outs:
+    - path: data/images/raw/Ardea_purpurea
+      hash: md5
+      md5: a87a4b1c4cb79918d2175d4758370374.dir
+      size: 38696038
+      nfiles: 335
+  download_images_Ardeola:
+    cmd: python src/download_images.py data/csv/Ardeola/birds.csv 
+      data/images/raw/Ardeola
+    deps:
+    - path: data/csv/Ardeola/birds.csv
+      hash: md5
+      md5: ccf250884f32935bd2bc6fb3ea305cd6
+      size: 51333
+    - path: src/download_images.py
+      hash: md5
+      md5: a5266f1ee0fc3894f7fbd4ecdbb9ce66
+      size: 827
+    outs:
+    - path: data/images/raw/Ardeola
+      hash: md5
+      md5: e4dd65779f34d18c168e8554bf4a88f5.dir
+      size: 46856447
+      nfiles: 395

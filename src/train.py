@@ -8,9 +8,7 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 from pathlib import Path
 from tqdm import tqdm
 import os
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print("DEVICE:", device)
+import yaml
 
 train_transform = transforms.Compose([
     transforms.Resize((224, 224)),
@@ -25,28 +23,31 @@ test_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
+def build_model(model_name: str, num_classes: int):
+    if model_name == "efficientnet_b0":
+        model = models.efficientnet_b0(
+            weights=models.EfficientNet_B0_Weights.IMAGENET1K_V1
+        )
+        model.classifier[1] = nn.Linear(
+            model.classifier[1].in_features, num_classes
+        )
 
-data_dir = Path("data/images/processed")
+    elif model_name == "resnet18":
+        model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
 
-train_dataset = datasets.ImageFolder(data_dir / "train", transform=train_transform)
-val_dataset   = datasets.ImageFolder(data_dir / "val", transform=test_transform)
+    elif model_name == "mobilenet_v3":
+        model = models.mobilenet_v3_small(
+            weights=models.MobileNet_V3_Small_Weights.IMAGENET1K_V1
+        )
+        model.classifier[3] = nn.Linear(
+            model.classifier[3].in_features, num_classes
+        )
 
-train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True, num_workers=0)
-val_loader   = DataLoader(val_dataset, batch_size=16, shuffle=False, num_workers=0)
+    else:
+        raise ValueError(f"Unknown model: {model_name}")
 
-class_names = train_dataset.classes
-print("CLASSES:", class_names)
-
-def build_efficientnet_b0(num_classes):
-    model = models.efficientnet_b0(weights=models.EfficientNet_B0_Weights.IMAGENET1K_V1)
-    model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
     return model.to(device)
-
-model = build_efficientnet_b0(len(class_names))
-
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
-scheduler = CosineAnnealingLR(optimizer, T_max=10)
 
 
 def train_one_epoch(model, loader, criterion, optimizer):
@@ -87,23 +88,53 @@ def validate_one_epoch(model, loader, criterion):
 
     return correct / total, running_loss / total
 
-epochs = 5
-best_acc = 0.0
-os.makedirs("models", exist_ok=True)
+if __name__ == '__main__':
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
+    elif torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
+    print("DEVICE:", device)
 
-for epoch in range(epochs):
-    print(f"\n===== Epoch {epoch+1}/{epochs} =====")
+    data_dir = Path("data/images/processed")
 
-    train_acc, train_loss = train_one_epoch(model, train_loader, criterion, optimizer)
-    val_acc, val_loss     = validate_one_epoch(model, val_loader, criterion)
-    scheduler.step()
+    train_dataset = datasets.ImageFolder(data_dir / "train", transform=train_transform)
+    val_dataset   = datasets.ImageFolder(data_dir / "val", transform=test_transform)
 
-    print(f"Train Acc: {train_acc:.4f} | Loss: {train_loss:.4f}")
-    print(f"Val   Acc: {val_acc:.4f} | Loss: {val_loss:.4f}")
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True, num_workers=2)
+    val_loader   = DataLoader(val_dataset, batch_size=16, shuffle=False, num_workers=2)
 
-    if val_acc > best_acc:
-        best_acc = val_acc
-        torch.save(model.state_dict(), "models/best.pt")
-        print("Saved new best model")
+    class_names = train_dataset.classes
+    print("CLASSES:", class_names)
 
-print(f"\nTraining finished. Best Val Accuracy: {best_acc:.4f}")
+    with open("params.yaml") as f:
+        params = yaml.safe_load(f)
+    cfg = params["train"]
+
+    model = build_model(cfg["model"], len(class_names))
+
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+    scheduler = CosineAnnealingLR(optimizer, T_max=10)
+
+    epochs = 5
+    best_acc = 0.0
+    os.makedirs("models", exist_ok=True)
+
+    for epoch in range(epochs):
+        print(f"\n===== Epoch {epoch+1}/{epochs} =====")
+
+        train_acc, train_loss = train_one_epoch(model, train_loader, criterion, optimizer)
+        val_acc, val_loss     = validate_one_epoch(model, val_loader, criterion)
+        scheduler.step()
+
+        print(f"Train Acc: {train_acc:.4f} | Loss: {train_loss:.4f}")
+        print(f"Val   Acc: {val_acc:.4f} | Loss: {val_loss:.4f}")
+
+        if val_acc > best_acc:
+            best_acc = val_acc
+            torch.save(model.state_dict(), f"models/best_{cfg['model']}.pt")
+            print("Saved new best model")
+
+    print(f"\nTraining finished. Best Val Accuracy: {best_acc:.4f}")

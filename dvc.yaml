@@ -15,6 +15,46 @@ stages:
     - src/download_images.py
     outs:
     - data/images/raw/Ardea_alba_egretta
+  download_images_Ardea_cocoi:
+    cmd: python src/download_images.py data/csv/Ardea_cocoi/birds.csv 
+      data/images/raw/Ardea_cocoi
+    deps:
+    - data/csv/Ardea_cocoi/birds.csv
+    - src/download_images.py
+    outs:
+    - data/images/raw/Ardea_cocoi
+  download_images_Ardea_ibis:
+    cmd: python src/download_images.py data/csv/Ardea_ibis/birds.csv 
+      data/images/raw/Ardea_ibis
+    deps:
+    - data/csv/Ardea_ibis/birds.csv
+    - src/download_images.py
+    outs:
+    - data/images/raw/Ardea_ibis
+  download_images_Ardea_melanocephala:
+    cmd: python src/download_images.py data/csv/Ardea_melanocephala/birds.csv 
+      data/images/raw/Ardea_melanocephala
+    deps:
+    - data/csv/Ardea_melanocephala/birds.csv
+    - src/download_images.py
+    outs:
+    - data/images/raw/Ardea_melanocephala
+  download_images_Ardea_purpurea:
+    cmd: python src/download_images.py data/csv/Ardea_purpurea/birds.csv 
+      data/images/raw/Ardea_purpurea
+    deps:
+    - data/csv/Ardea_purpurea/birds.csv
+    - src/download_images.py
+    outs:
+    - data/images/raw/Ardea_purpurea
+  download_images_Ardeola:
+    cmd: python src/download_images.py data/csv/Ardeola/birds.csv 
+      data/images/raw/Ardeola
+    deps:
+    - data/csv/Ardeola/birds.csv
+    - src/download_images.py
+    outs:
+    - data/images/raw/Ardeola
   prepare_dataset:
     cmd: python src/prepare_dataset.py
     deps:
@@ -27,5 +67,7 @@ stages:
     deps:
     - src/train.py
     - data/images/processed
+    params:
+    - train.model
     outs:
-    - models/best.pt
+    - models

@@ -13,8 +13,6 @@ def prepare_dataset(
     min_images_per_class: int,
     seed: int,
 ):
-    assert abs(train_ratio + val_ratio + test_ratio - 1.0) < 1e-6
-
     random.seed(seed)
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -26,9 +24,6 @@ def prepare_dataset(
 
     for class_dir in class_dirs:
         images = list(class_dir.glob("*"))
-
-        if len(images) < min_images_per_class:
-            continue
 
         random.shuffle(images)
 

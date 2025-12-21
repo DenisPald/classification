@@ -1,0 +1,2 @@
+train:
+  model: resnet18               # efficientnet_b0 | resnet18 | mobilenet_v3
