@@ -79,5 +79,7 @@ stages:
       - src/extract_embeddings.py
       - models/best_model.pt
       - data/images
+    params:
+      - train.model
     outs:
       - embeddings

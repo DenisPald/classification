@@ -183,11 +183,14 @@ stages:
       size: 16360505
     - path: src/extract_embeddings.py
       hash: md5
-      md5: fcd7ccee07c2f878ecb19f71e14d0e06
-      size: 3965
+      md5: 93309c163a3702dbdbc8e6a2be87b524
+      size: 2916
+    params:
+      params.yaml:
+        train.model: efficientnet_b0
     outs:
     - path: embeddings
       hash: md5
-      md5: d2fae86652a1ceffdc9e46bdf44b6985.dir
+      md5: d5bfad139cf4ff208273d4fcf12d849d.dir
       size: 17117086
       nfiles: 6
