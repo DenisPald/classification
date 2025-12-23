@@ -73,3 +73,11 @@ stages:
     - models
     metrics:
     - metrics.json
+  extract_embeddings:
+    cmd: python src/extract_embeddings.py
+    deps:
+      - src/extract_embeddings.py
+      - models/best_model.pt
+      - data/images
+    outs:
+      - embeddings

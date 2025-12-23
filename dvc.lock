@@ -169,3 +169,25 @@ stages:
       md5: e4dd65779f34d18c168e8554bf4a88f5.dir
       size: 46856447
       nfiles: 395
+  extract_embeddings:
+    cmd: python src/extract_embeddings.py
+    deps:
+    - path: data/images
+      hash: md5
+      md5: fe1f3d678cdf3ec615eea8942febebc0.dir
+      size: 688121470
+      nfiles: 6035
+    - path: models/best_model.pt
+      hash: md5
+      md5: b34a812d7f805b9dcd4fdc66f34be2d2
+      size: 16360505
+    - path: src/extract_embeddings.py
+      hash: md5
+      md5: fcd7ccee07c2f878ecb19f71e14d0e06
+      size: 3965
+    outs:
+    - path: embeddings
+      hash: md5
+      md5: d2fae86652a1ceffdc9e46bdf44b6985.dir
+      size: 17117086
+      nfiles: 6
