@@ -14,7 +14,7 @@ elif torch.cuda.is_available():
 else:
     device = torch.device("cpu")
 
-class_names = ['Ardea_alba_egretta', 'Ardea_cocoi', 'Ardea_herodias', 'Ardea_ibis', 'Ardea_melanocephala', 'Ardea_purpurea', 'Ardeola']
+class_names = ['Большая белая цапля', 'Южноамериканская цапля', 'Большая голубая цапля', 'Египетская цапля', 'Черношейная цапля', 'Цапля рыжая', 'Жёлтая цапля']
 
 db_path = Path("embeddings/chroma_db")
 client = chromadb.PersistentClient(path=str(db_path))
@@ -83,7 +83,7 @@ with gr.Blocks(title="Классификация птиц") as demo:
     with gr.Row():
         with gr.Column():
             input_img = gr.Image(type="pil", label="Загрузка изображения")
-            btn = gr.Button("Analyze")
+            btn = gr.Button("Анализ")
         
         with gr.Column():
             output_label = gr.Label(num_top_classes=3, label="Предсказание")
